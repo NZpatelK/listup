@@ -30,7 +30,7 @@ export default function TodoBoard() {
 
   return (
     <div>
-      <button className="mb-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={addList}>
+      <button className="mb-4 px-10 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition ease-in-out duration-300" onClick={addList}>
         Add List
       </button>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -12,7 +12,7 @@ export default function Item({ item, updateItem, deleteItem }) {
     return (
         <div className="flex items-center gap-2">
             <input
-                className="flex-grow p-2 border rounded"
+                className="flex-grow p-2 border border-gray-200 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={text}
                 onChange={handleChange}
             />

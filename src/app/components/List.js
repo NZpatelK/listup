@@ -41,17 +41,14 @@ export default function List({ list, updateList, deleteList }) {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow p-4">
+        <div className="bg-white rounded-xl shadow p-4 relative">
             <input
-                className="text-xl font-semibold mb-2 w-full"
+                className="text-xl font-bold mb-2 w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded p-2"
                 value={title}
                 onChange={handleTitleChange}
             />
-            <button className="text-sm text-red-500 mb-2" onClick={() => deleteList(list.id)}>
-                Delete List
-            </button>
-            <button className="mb-2 px-2 py-1 bg-green-500 text-white rounded" onClick={addItem}>
-                Add Item
+            <button className="text-lg w-8 h-8 text-white bg-red-500 mb-2 rounded-full absolute top-[-10px] right-[-10px]" onClick={() => deleteList(list.id)}>
+                x
             </button>
             <div>
                 {items.map((item, index) => (
@@ -62,12 +59,15 @@ export default function List({ list, updateList, deleteList }) {
                         onDragEnter={() => (dragOverItem.current = index)}
                         onDragEnd={handleSort}
                         onDragOver={(e) => e.preventDefault()}
-                        className="mb-2 transition-transform duration-200 hover:scale-[1.01]"
+                        className="mb-2 transition-transform duration-200 hover:scale-[1.05]"
                     >
                         <Item item={item} updateItem={updateItem} deleteItem={deleteItem} />
                     </div>
                 ))}
             </div>
+            <button className="mb-2 px-2 py-1 bg-green-500 text-white rounded w-[95%]" onClick={addItem}>
+                Add Item
+            </button>
         </div>
     );
 }
