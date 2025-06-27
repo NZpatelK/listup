@@ -76,7 +76,7 @@ export default function TodoBoard() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="flex flex-wrap gap-4 justify-center p-4">
       {lists.map((list, index) => (
         <div
           key={list.id}
