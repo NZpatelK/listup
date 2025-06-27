@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Item from './Item';
 
 export default function List({
@@ -14,6 +14,11 @@ export default function List({
 
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
+
+  useEffect(() => {
+    setTitle(list.name);
+    setItems(list.items);
+  }, [list]);
 
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -59,10 +64,8 @@ export default function List({
       const newItems = [...items, payload.item];
       setItems(newItems);
       updateList({ ...list, items: newItems });
-
-      if (onItemDropFromOtherList) {
-        onItemDropFromOtherList(payload.fromListId, payload.item.id);
-      }
+      onItemDropFromOtherList(payload.fromListId, payload.item.id);
+      
     }
 
     dragItem.current = null;

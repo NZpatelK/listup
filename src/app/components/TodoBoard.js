@@ -64,27 +64,31 @@ export default function TodoBoard() {
   };
 
   const removeItemFromList = (listId, itemId) => {
-    setLists((prevLists) =>
-      prevLists.map((list) => {
+    setLists((prevLists) => {
+      const updatedLists = prevLists.map((list) => {
         if (list.id === listId) {
-          const newItems = list.items.filter((item) => item.id !== itemId);
+          const newItems = list.items?.filter((item) => item.id !== itemId) || [];
           return { ...list, items: newItems };
         }
         return list;
-      })
-    );
+      });
+
+      return [...updatedLists]; // <- ensures a new array is returned
+    });
   };
+
+
 
   return (
     <div className="flex flex-wrap gap-4 justify-center p-4">
       {lists.map((list, index) => (
         <div
           key={list.id}
-          draggable
-          onDragStart={() => handleDragStart(index)}
-          onDragEnter={() => handleDragEnter(index)}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={handleDrop}
+        // draggable
+        // onDragStart={() => handleDragStart(index)}
+        // onDragEnter={() => handleDragEnter(index)}
+        // onDragOver={(e) => e.preventDefault()}
+        // onDrop={handleDrop}
         >
           <List
             list={list}
