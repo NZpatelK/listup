@@ -1,24 +1,23 @@
 'use client';
-import { useState } from "react";
 
 export default function Item({ item, updateItem, deleteItem }) {
-    const [text, setText] = useState(item.content);
+  const handleChange = (e) => {
+    updateItem({ ...item, content: e.target.value });
+  };
 
-    const handleChange = (e) => {
-        setText(e.target.value);
-        updateItem({ ...item, content: e.target.value });
-    };
-
-    return (
-        <div className="flex items-center gap-2">
-            <input
-                className="flex-grow p-2 border border-gray-200 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={text}
-                onChange={handleChange}
-            />
-            <button className="text-red-500" onClick={() => deleteItem(item.id)}>
-                ❌
-            </button>
-        </div>
-    )
-};
+  return (
+    <div className="bg-gray-100 p-2 rounded flex items-center justify-between gap-2">
+      <input
+        className="flex-grow bg-transparent outline-none text-gray-800"
+        value={item.content}
+        onChange={handleChange}
+      />
+      <button
+        onClick={() => deleteItem(item.id)}
+        className="text-white bg-red-500 px-2 py-1 rounded"
+      >
+        x
+      </button>
+    </div>
+  );
+}

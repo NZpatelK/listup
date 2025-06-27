@@ -1,42 +1,103 @@
-"use client";
-import { useState, useEffect } from "react";
-import List from "@/app/components/List";
-import { v4 as uuidv4 } from "uuid";
+'use client';
+
+import { useState, useRef } from 'react';
+import List from '@/app/components/List';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function TodoBoard() {
-  const [lists, setLists] = useState([]);
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
 
-  useEffect(() => {
-    // Load lists from DynamoDB
-  }, []);
+  const [lists, setLists] = useState([
+    {
+      id: uuidv4(),
+      // orderNo: 1,
+      name: 'To Do',
+      items: [],
+    },
+    {
+      id: uuidv4(),
+      // orderNo: 2,
+      name: 'In Progress',
+      items: [],
+    },
+    {
+      id: uuidv4(),
+      // orderNo: 3,
+      name: 'Done',
+      items: [],
+    },
+  ]);
 
-  const addList = () => {
-    const newList = { id: uuidv4(), name: "New List", items: [] };
-    setLists([...lists, newList]);
-    // Save to DynamoDB
+  const handleDragStart = (index) => {
+    dragItem.current = index;
+  };
+
+  const handleDragEnter = (index) => {
+    dragOverItem.current = index;
+  };
+
+  const handleDrop = () => {
+    const copyLists = [...lists];
+    const dragIndex = dragItem.current;
+    const dropIndex = dragOverItem.current;
+
+    if (dragIndex === dropIndex || dragIndex === null || dropIndex === null) return;
+
+    const draggedList = copyLists[dragIndex];
+    copyLists.splice(dragIndex, 1);
+    copyLists.splice(dropIndex, 0, draggedList);
+
+    setLists(copyLists);
+    dragItem.current = null;
+    dragOverItem.current = null;
   };
 
   const updateList = (updatedList) => {
-    const newLists = lists.map((l) => (l.id === updatedList.id ? updatedList : l));
-    setLists(newLists);
-    // Save to DynamoDB
+    setLists((prevLists) =>
+      prevLists.map((list) => (list.id === updatedList.id ? updatedList : list))
+    );
   };
 
   const deleteList = (id) => {
-    const newLists = lists.filter((l) => l.id !== id);
-    setLists(newLists);
-    // Delete from DynamoDB
+    setLists((prev) => prev.filter((list) => list.id !== id));
+  };
+
+  const removeItemFromList = (listId, itemId) => {
+    setLists((prevLists) =>
+      prevLists.map((list) => {
+        if (list.id === listId) {
+          const newItems = list.items.filter((item) => item.id !== itemId);
+          return { ...list, items: newItems };
+        }
+        return list;
+      })
+    );
   };
 
   return (
-    <div>
-      <button className="mb-4 px-10 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition ease-in-out duration-300" onClick={addList}>
-        Add List
-      </button>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {lists.map((list) => (
-          <List key={list.id} list={list} updateList={updateList} deleteList={deleteList} />
-        ))}
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {lists.map((list, index) => (
+        <div
+          key={list.id}
+          draggable
+          onDragStart={() => handleDragStart(index)}
+          onDragEnter={() => handleDragEnter(index)}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={handleDrop}
+        >
+          <List
+            list={list}
+            updateList={updateList}
+            deleteList={deleteList}
+            onItemDropFromOtherList={removeItemFromList}
+          />
+        </div>
+      ))}
+      <div className="bg-gray-200 border border-dashed border-gray-500 rounded-xl p-4 relative w-[300px] min-h-[300px] flex items-center justify-center">
+        <button className='text-lg text-blue-500 font-bold' onClick={() => setLists([...lists, { id: uuidv4(), name: 'New List', items: [] }])}>
+          Add List
+        </button>
       </div>
     </div>
   );
