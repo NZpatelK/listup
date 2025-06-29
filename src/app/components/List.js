@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Item from './Item';
+import Image from 'next/image';
+import bin from '@/app/assets/bin.png';
 
 export default function List({
   list,
@@ -88,7 +90,7 @@ export default function List({
         className="text-lg w-8 h-8 text-white bg-red-500 mb-2 rounded-full absolute top-[-10px] right-[-10px]"
         onClick={() => deleteList(list.id)}
       >
-        x
+        <Image className='mx-auto' width={15} height={15} src={bin} alt="Delete List" />
       </button>
       <div>
         {items.map((item, index) => (
