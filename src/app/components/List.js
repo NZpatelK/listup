@@ -10,6 +10,7 @@ export default function List({
   updateList,
   deleteList,
   onItemDropFromOtherList,
+  setIsItemDragging,
 }) {
   const [title, setTitle] = useState(list.name);
   const [items, setItems] = useState(list.items);
@@ -48,26 +49,32 @@ export default function List({
   };
 
   const handleDragStart = (item, index) => {
+    setIsItemDragging(true);
     dragItem.current = index;
     window.dragPayload = { item, fromListId: list.id };
   };
 
   const handleDrop = () => {
+    setIsItemDragging(false);
     const payload = window.dragPayload;
     if (!payload) return;
 
+    const insertIndex = dragOverItem.current ?? items.length;
+
     if (payload.fromListId === list.id) {
+      // Reorder within same list
       const reorderedItems = [...items];
       const [draggedItem] = reorderedItems.splice(dragItem.current, 1);
-      reorderedItems.splice(dragOverItem.current, 0, draggedItem);
+      reorderedItems.splice(insertIndex, 0, draggedItem);
       setItems(reorderedItems);
       updateList({ ...list, items: reorderedItems });
     } else {
-      const newItems = [...items, payload.item];
+      // Moving from another list
+      const newItems = [...items];
+      newItems.splice(insertIndex, 0, payload.item); // insert at position
       setItems(newItems);
       updateList({ ...list, items: newItems });
-      onItemDropFromOtherList(payload.fromListId, payload.item.id);
-      
+      onItemDropFromOtherList(payload.fromListId, payload.item.id); // remove from old list
     }
 
     dragItem.current = null;
@@ -90,7 +97,7 @@ export default function List({
         className="text-lg w-8 h-8 text-white bg-red-500 mb-2 rounded-full absolute top-[-10px] right-[-10px]"
         onClick={() => deleteList(list.id)}
       >
-        <Image className='mx-auto' width={15} height={15} src={bin} alt="Delete List" />
+        <Image className="mx-auto" width={15} height={15} src={bin} alt="Delete List" />
       </button>
       <div>
         {items.map((item, index) => (
@@ -98,7 +105,7 @@ export default function List({
             key={item.id}
             draggable
             onDragStart={() => handleDragStart(item, index)}
-            onDragEnter={() => (dragOverItem.current = index)}
+            onDragEnter={() => (dragOverItem.current = index, setIsItemDragging(true))}
             onDragOver={(e) => e.preventDefault()}
             className="mb-2 transition-transform duration-200 hover:scale-[1.05]"
           >

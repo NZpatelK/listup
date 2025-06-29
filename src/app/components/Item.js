@@ -6,7 +6,7 @@ export default function Item({ item, updateItem, deleteItem }) {
   };
 
   return (
-    <div className="p-3 flex items-center justify-between gap-2 border-b border-gray-200 hover:bg-gray-100">
+    <div className="p-3 flex items-center justify-between gap-2 border-b border-gray-200 hover:bg-gray-100 z-10">
       <input
         className="flex-grow bg-transparent outline-none text-gray-800"
         value={item.content}
