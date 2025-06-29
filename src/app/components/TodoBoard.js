@@ -12,17 +12,7 @@ export default function TodoBoard() {
   const [lists, setLists] = useState([
     {
       id: uuidv4(),
-      name: 'To Do',
-      items: [],
-    },
-    {
-      id: uuidv4(),
-      name: 'In Progress',
-      items: [],
-    },
-    {
-      id: uuidv4(),
-      name: 'Done',
+      name: 'List 1',
       items: [],
     },
   ]);
