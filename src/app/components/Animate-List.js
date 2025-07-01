@@ -64,7 +64,7 @@ export default function SortableListPage() {
             ref={(el) => (itemRefs.current[index] = el)}
             style={{ position: 'absolute', left: 0, right: 0 }}
           >
-            <div className="item-content" style={{
+            <div className="item-content text-gray-800" style={{
               background: 'white',
               boxShadow: '0 0 4px rgba(0,0,0,0.1)',
               padding: '1rem',
@@ -78,25 +78,6 @@ export default function SortableListPage() {
           </div>
         ))}
       </section>
-
-      <div
-        className="circle"
-        style={{
-          marginTop: '2rem',
-          width: '2.5rem',
-          height: '2.5rem',
-          background: '#3b82f6',
-          color: 'white',
-          borderRadius: '9999px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1.5rem',
-          cursor: 'pointer'
-        }}
-      >
-        +
-      </div>
     </div>
   );
 }
