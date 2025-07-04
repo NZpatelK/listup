@@ -2,6 +2,11 @@
 
 **ListUp** is a smart and flexible list management app — perfect for managing to-dos, shopping lists, or any kind of list you need to keep track of. You can create multiple lists, add items, organize them by priority, and even move items between different lists.
 
+## 🎥 Demo Video
+
+Check out how **ListUp** works in action:
+👉 [Watch the demo](https://your-demo-video-link.com)
+
 ## ✨ Features
 
 * ✅ Add, edit, and delete list items
@@ -39,3 +44,8 @@ npm run dev
 
 Built by Karan Patel — a self-learner passionate about building full-stack web apps.
 
+Built by \[Your Name] — a self-learner passionate about building full-stack web apps.
+
+---
+
+If you’d like, I can also help create a preview GIF or add deployment instructions (e.g., Vercel). Just let me know!
