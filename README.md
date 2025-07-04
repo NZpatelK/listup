@@ -43,9 +43,3 @@ npm run dev
 ## 🙋‍♂️ Author
 
 Built by Karan Patel — a self-learner passionate about building full-stack web apps.
-
-Built by \[Your Name] — a self-learner passionate about building full-stack web apps.
-
----
-
-If you’d like, I can also help create a preview GIF or add deployment instructions (e.g., Vercel). Just let me know!
